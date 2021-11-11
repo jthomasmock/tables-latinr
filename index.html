@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Beautiful Tables in R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Tom Mock" />
+    <meta name="date" content="2021-11-10" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="css/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="css/my-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# <span style="color:#fcab27">Beautiful Tables in R</span>
+## <span style="color:#3686d3">gt and the grammar of tables</span> <br>
+### <a href = 'https://twitter.com/thomas_mock'><span style="color:#ff2b4f">Tom Mock</span></a>
+### 2021-11-10
+
+---
+
+
+
+
+
+
+---
+
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;span&gt;themockup.blog/static/slides/intro-tables.html&lt;/span&gt;&lt;/div&gt;
+
+---
+class:center
+
+# Why do we care about tables?
+
+---
+class: center
+
+### *Why do we care about tables?*
+
+# Why do we care about graphs?  
+
+---
+class: center
+
+### *Why do we care about tables?*  
+
+### *Why do we care about graphs?*  
+
+# *Both* Graphs AND Tables *are* tools for communication
+
+
+---
+class: center
+
+### *Why do we care about tables?*
+
+### *Why do we care about graphs?*
+
+### *Both Graphs and tables are tools for communication*
+
+# Better Graphs/Tables *are* better communication
+
+---
+
+### A **grammar** of graphics
+
+* `ggplot2` is an application of the **grammar of graphics** for R  
+
+--
+
+* A default dataset and set of mappings from variables to aesthetics  
+
+* One or more layers of geometric objects    
+
+* One scale for each aesthetic mapping used  
+
+* A coordinate system  
+
+* The facet specification  
+
+---
+
+### A **grammar** of graphics
+
+--
+
+.pull-left[
+Easy enough to [*rapidly prototype*](https://johnburnmurdoch.github.io/slides/r-ggplot/#/14) graphics at the "speed of thought"  
+&lt;img src="https://johnburnmurdoch.github.io/slides/r-ggplot/football-tide-2.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+Images from John-Burn Murdoch's presentation: [**ggplot2 as a creativity engine**](https://johnburnmurdoch.github.io/slides/r-ggplot/#/)  
+
+]
+
+--
+
+.pull-right[
+Powerful enough for [*final "publication"*](https://johnburnmurdoch.github.io/slides/r-ggplot/#/34)  
+&lt;img src="http://blogs.ft.com/ftdata/files/2016/03/eng.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+### A **grammar** of tables
+
+--
+
+Construct a wide variety of useful tables with a cohesive set of table parts. These include the *table header*, the *stub*, the *column labels* and *spanner column labels*, the *table body* and the *table footer*.
+
+--
+
+&lt;img src="https://gt.rstudio.com/reference/figures/gt_parts_of_a_table.svg" title="The parts of a gt table diagram. Outlines the title, subtitle, header, stubhead, stub, column labels, table body, and the table footer." alt="The parts of a gt table diagram. Outlines the title, subtitle, header, stubhead, stub, column labels, table body, and the table footer." width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="https://gt.rstudio.com/reference/figures/gt_workflow_diagram.svg" title="A typical gt workflow, which consists of table data piped into a gt object that is modified with gt API functions and outputs as a gt table, typically as HTML." alt="A typical gt workflow, which consists of table data piped into a gt object that is modified with gt API functions and outputs as a gt table, typically as HTML." width="65%" style="display: block; margin: auto;" /&gt;
+
+--
+.pull-left[
+Easy enough to *rapidly prototype*  
+<table style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif; display: table; border-collapse: collapse; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;">
+  
+  <thead style="border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
+    <tr>
+      <th style="color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" rowspan="1" colspan="1">cyl</th>
+      <th style="color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" rowspan="1" colspan="1">disp</th>
+      <th style="color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" rowspan="1" colspan="1">hp</th>
+      <th style="color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" rowspan="1" colspan="1">drat</th>
+      <th style="color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" rowspan="1" colspan="1">wt</th>
+    </tr>
+  </thead>
+  <tbody style="border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3;">
+    <tr><td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">6</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">160</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">110</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">3.90</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">2.620</td></tr>
+    <tr><td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">6</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">160</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">110</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">3.90</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">2.875</td></tr>
+    <tr><td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">4</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">108</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">93</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">3.85</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">2.320</td></tr>
+    <tr><td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">6</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">258</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">110</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">3.08</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">3.215</td></tr>
+    <tr><td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">8</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">360</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">175</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">3.15</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">3.440</td></tr>
+    <tr><td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">6</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">225</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">105</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">2.76</td>
+<td style="padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;">3.460</td></tr>
+  </tbody>
+  
+  
+</table>
+
+]
+
+--
+
+.pull-right[
+Powerful enough for [*final "publication"*](https://johnburnmurdoch.github.io/slides/r-ggplot/#/34)  
+
+
+&lt;iframe id="publicationQuality" src="tables/publication-quality.html" width="600" height="300"  frameborder="0"&gt;
+]
+
+---
+
+
+
+&lt;iframe id="fewTable" src="tables/few-table-rule.html" width="1000" height="1000"  frameborder="0"&gt;
+
+---
+
+
+
+&lt;iframe id="fewTableEx" src="tables/few-table-ex.html" width="1000" height="750"  frameborder="0" style="-webkit-transform:scale(0.75);-moz-transform-scale(0.75);position:absolute;top:0px;"&gt;
+
+---
+
+### Basic `gt` table
+
+
+
+
+
+.pull-left[
+
+```r
+yield_data_wide %&gt;% 
+  gt()
+```
+
+]
+
+--
+
+.pull-right[
+
+&lt;iframe id="basicTable" src="tables/basic-table.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### Add groups
+
+.pull-left[
+
+```r
+yield_data_wide %&gt;% 
+  head() %&gt;% 
+  # respects grouping from dplyr
+* group_by(Country) %&gt;%
+  gt(rowname_col = "crop") 
+```
+
+]
+
+---
+
+### Add groups
+
+.pull-left[
+
+```r
+yield_data_wide %&gt;% 
+  head() %&gt;% 
+  # respects grouping from dplyr
+* group_by(Country) %&gt;%
+  gt(rowname_col = "crop") 
+```
+
+
+```r
+yield_data_wide %&gt;% 
+  head() %&gt;%
+  gt(
+*   groupname_col = "crop",
+*   rowname_col = "Country"
+  ) 
+```
+
+]
+
+
+--
+
+.pull-right[
+
+
+&lt;iframe id="groupTab" src="tables/group-tab.html" width="450" height="600"  frameborder="0"&gt;
+
+
+]
+
+
+---
+
+
+
+.pull-left[
+### Groups
+
+
+```r
+yield_data_wide %&gt;% 
+  mutate(crop = str_to_title(crop)) %&gt;% 
+  group_by(crop) %&gt;% 
+  gt(
+    rowname_col = "Country"
+  ) %&gt;% 
+  fmt_number(
+    columns = 2:5, # reference cols by pos
+    decimals = 2 # decrease decimal places
+    ) %&gt;% 
+* summary_rows(
+*   groups = TRUE,
+    # reference cols by name
+    columns = c(`2014`, `2015`, `2016`), 
+    fns = list(
+      # add summary stats
+*     avg = ~mean(.),
+*     sd = ~sd(.)
+    )
+  )
+```
+
+]
+
+--
+
+.pull-right[
+
+&lt;iframe id="groupSum" src="tables/groupSum.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### Add spanners
+
+Table spanners can be added quickly with `tab_spanner()` and again use either position (column number) or + `c(name)`.
+
+.pull-left[
+
+```r
+yield_data_wide %&gt;% 
+  head() %&gt;%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %&gt;% 
+* tab_spanner(
+*   label = "Yield in Tonnes/Hectare",
+*   columns = 2:5
+    ) 
+```
+
+]
+
+--
+
+.pull-right[
+&lt;iframe id="tabSpanner" src="tables/tab-spanner.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### Add notes and titles
+
+Footnotes can be added with `tab_footnote()`. Note that this is our first use of the `locations` argument. Locations is used with things like `cells_column_labels()` or `cells_body()`, `cells_summary()` to offer very tight control of where to place certain changes. 
+
+.pull-left[
+
+```r
+yield_data_wide %&gt;% 
+  head() %&gt;%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %&gt;% 
+  tab_footnote(
+    footnote = "Yield in Tonnes/Hectare", 
+*   locations = cells_column_labels(
+      columns = 1:3
+      )
+    )
+```
+
+]
+
+--
+
+.pull-right[
+&lt;iframe id="notesTitles" src="tables/notes-titles.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### Add notes and titles
+
+Footnotes can be added with `tab_footnote()`. Note that this is our first use of the `locations` argument. Locations is used with things like `cells_column_labels()` or `cells_body()`, `cells_summary()` to offer very tight control of where to place certain changes. 
+
+.pull-left[
+
+```r
+yield_data_wide %&gt;% 
+  head() %&gt;%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %&gt;% 
+  tab_footnote(
+    footnote = "Yield in Tonnes/Hectare", 
+    locations = cells_column_labels(
+      columns = 1:3 # note
+      )
+    ) %&gt;% 
+  # Adding a `source_note()`
+  tab_source_note(
+*   source_note = "Data: OurWorldInData"
+    )
+```
+
+]
+
+--
+
+.pull-right[
+&lt;iframe id="notesSource" src="tables/notes-source.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+
+---
+
+### Add Title/Subtitle
+
+Adding a title or subtitle with `tab_header()` and notice that I used `md()` around the title and `html()` around subtitle to adjust their appearance. 
+
+.pull-left[
+
+```r
+yield_data_wide %&gt;% 
+  head() %&gt;%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %&gt;%
+* tab_header(
+    title = md("**Crop Yields between 2014 and 2016**"),
+    subtitle = html("&lt;em&gt;Countries limited to Asia&lt;/em&gt;")
+  )
+```
+
+]
+
+--
+
+.pull-right[
+&lt;iframe id="titleSubtitle" src="tables/title-subtitle.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### Adjust appearance
+
+You can customize large chunks of the table appearance all at once via `tab_options()`. The full reference to ALL the options you can customize are in the [`gt` packagedown site](https://gt.rstudio.com/reference/tab_options.html).
+
+.pull-left[
+
+```r
+yield_data_wide %&gt;% 
+  head() %&gt;%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %&gt;%
+  tab_header(
+    title = "Crop Yields between 2014 and 2016",
+    subtitle = "Countries limited to Asia"
+  ) %&gt;% 
+* tab_options(
+    heading.subtitle.font.size = 12,
+    heading.align = "left",
+    table.border.top.color = "red",
+    column_labels.border.bottom.color = "red",
+    column_labels.border.bottom.width= px(3)
+  )
+```
+
+]
+
+--
+
+.pull-right[
+&lt;iframe id="adjustAppearance" src="tables/adjust-appearance.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### Pseudo-themes
+
+Because `gt` is built up by a series of piped examples, you can also pass along additional changes/customization as a function almost like a `ggplot2` theme!
+
+.pull-left[
+
+```r
+my_theme &lt;- function(data) {
+  tab_options(
+    data = data,
+    heading.subtitle.font.size = 12,
+    heading.align = "left",
+    table.border.top.color = "red",
+    column_labels.border.bottom.color = "red",
+    column_labels.border.bottom.width= px(3)
+  )
+}
+yield_data_wide %&gt;% 
+  head() %&gt;%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %&gt;%
+  tab_header(
+    title = "Crop Yields between 2014 and 2016",
+    subtitle = "Countries limited to Asia"
+  ) %&gt;% 
+* my_theme()
+```
+]
+
+--
+
+.pull-right[
+&lt;iframe id="themeTab" src="tables/theme-tab.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### Style specific cells w/ `tab_style()`
+
+.pull-left[
+.small[
+
+
+```r
+yield_data_wide %&gt;% 
+  head() %&gt;%
+  gt() %&gt;% 
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels(everything())
+  ) %&gt;% 
+* tab_style(
+    style = list(
+*     cell_fill(color = "black", alpha = 0.2),
+*     cell_borders(
+        side = c("left", "right"), 
+        color = "black",
+        weight = px(2)
+        )
+      ),
+    locations = cells_body(
+      columns = crop
+      )
+  ) %&gt;% 
+  tab_style(
+    style = list(
+*     cell_text(color = "red", style = "italic")
+    ),
+    locations = cells_body(
+      columns = 3:5,
+*     rows = Country == "China"
+    )
+  )
+```
+
+]
+
+]
+
+--
+
+.pull-right[
+&lt;iframe id="tabSpanner" src="tables/tab-style.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### Color Gradient
+
+
+.pull-left[
+
+```r
+my_pal &lt;- scales::col_numeric(
+  paletteer::paletteer_d(
+    palette = "ggsci::red_material"
+    ) %&gt;% as.character(),
+  domain = NULL
+  )
+  
+yield_data_wide %&gt;% 
+  head() %&gt;%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %&gt;% 
+* data_color(
+    columns = c(`2014`, `2015`, `2016`),
+*   colors = my_pal
+      )
+```
+
+]
+
+--
+
+.pull-right[
+&lt;iframe id="colorGradient" src="tables/color-gradient.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+class: inverse, center, middle
+
+# 10 Guidelines with `gt`
+
+---
+
+### Original Credit
+
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;I recently published &amp;quot;Ten Guidelines for Better Tables&amp;quot; in the Journal of Benefit Cost Analysis (&lt;a href="https://twitter.com/benefitcost?ref_src=twsrc%5Etfw"&gt;@benefitcost&lt;/a&gt;) on ways to improve your data tables. &lt;br&gt;&lt;br&gt;Here&amp;#39;s a thread summarizing the 10 guidelines. &lt;br&gt;&lt;br&gt;Full paper is here: &lt;a href="https://t.co/VSGYnfg7iP"&gt;https://t.co/VSGYnfg7iP&lt;/a&gt; &lt;a href="https://t.co/W6qbsktioL"&gt;pic.twitter.com/W6qbsktioL&lt;/a&gt;&lt;/p&gt;&amp;mdash; Jon Schwabish (@jschwabish) &lt;a href="https://twitter.com/jschwabish/status/1290323581881266177?ref_src=twsrc%5Etfw"&gt;August 3, 2020&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+
+
+---
+
+### Rule 1: Offset the Heads from the Body
+
+.pull-left[
+&lt;iframe id="potato-tab" src="tables/potato-tab.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### Rule 1: Offset the Heads from the Body
+
+.pull-left[
+&lt;iframe id="potato-tab" src="tables/hot-potato.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### Rule 2: Use Subtle Dividers Rather Than Heavy Gridlines
+
+The idea here is that you want to clearly indicate dividers when necessary. 
+Especially with many column labels, you want to make sure that changes in the structure are clear.
+
+
+---
+
+### Rule 2: Use Subtle Dividers Rather Than Heavy Gridlines
+
+&lt;iframe id="potato-tab" src="tables/rule2-bad.html" width="1000" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 2: Use Subtle Dividers Rather Than Heavy Gridlines
+
+&lt;iframe id="potato-tab" src="tables/rule2-good.html" width="1000" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 3: Right-Align Numbers and Heads
+
+In this case, you want to right align numbers and ideally choose mono-spaced or numerically-aligned fonts, while avoiding "oldstyle" fonts which have numbers with varying vertical placement. 
+
+--
+
+Importantly, `gt` already automatically follows best practices for the most part so we have to change some of the defaults to get **bad** examples.
+
+---
+
+### 3. Comparison of alignment
+
+Notice that left-alignment or center-alignment of numbers impairs the ability to clearly compare numbers and decimal places. Right-alignment lets you align decimal places and numbers for easy parsing.
+
+&lt;iframe id="potato-tab" src="tables/rule3-align.html" width="1000" height="600"  frameborder="0"&gt;
+
+---
+
+### 3. Addendums to Alignment
+
+When aligning text of equal length (long or very short), center alignment of text can be fine or even preferable. For example, very short text with a long header can be better suited to center-align. Equal length text can be centered without negatively affecting the ability to quickly read.
+
+.pull-left[
+&lt;iframe id="rule3AddBad" src="tables/rule3-add-bad.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+--
+
+.pull-right[
+&lt;iframe id="rule3AddBad" src="tables/rule3-add-good.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### 3. Addendums to Alignment
+
+When aligning text of equal length (long or very short), center alignment of text can be fine or even preferable. For example, very short text with a long header can be better suited to center-align. Equal length text can be centered without negatively affecting the ability to quickly read.
+
+.pull-left[
+&lt;iframe id="rule3AddBad" src="tables/rule3-add-good.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### 3. Choose fonts carefully
+
+For the fonts below, notice that the Default for `gt` along with a monospaced font in `Fira Mono` have nice alignment of decimal places and equally-spaced numbers.
+
+--
+
+&lt;iframe id="fontTab" src="tables/font-tab.html" width="450" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 4: Left-align Text and Heads
+
+For labels/strings it is typically more appropriate to left-align. This allows your eye to follow both short and long text vertically to scan a table, along with a clear border.
+
+--
+
+&lt;iframe id="alignTabHeads" src="tables/rule4-tab.html" width="950" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 5: Select the Appropriate Level of Precision
+
+While you can sometimes justify increased decimal places, often 1 or 2 is enough. Use the various `gt::fmt_number()` functions!
+
+&lt;iframe id="precision" src="tables/rule5-tab.html" width="950" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 6: Guide Your Reader with Space
+
+Think of how you want to guide the reader - vertically or horizontally. 
+
+&lt;iframe id="spaceTall" src="tables/rule6-tall.html" width="950" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 6: Guide Your Reader with Space
+
+Think of how you want to guide the reader - vertically or horizontally. 
+
+&lt;iframe id="spaceWide" src="tables/rule6-wide.html" width="950" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 7: Remove Unit Repetition
+
+&lt;iframe id="repUnits" src="tables/units.html" width="950" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 7: Remove Unit Repetition
+
+You can use `gtExtras::fmt_symbol_first()` to apply units to only the first row.
+
+&lt;iframe id="repUnits" src="tables/units.html" width="950" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 8: Highlight Outliers  
+
+With large data tables, it can be useful to take a page from our Data Viz and highlight outliers with color or shape.
+
+&lt;iframe id="highlightOut" src="tables/highlight-out.html" width="1000" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 8: Highlight Outliers
+
+With a bit of color added we can clearly focus on the outliers.
+
+&lt;iframe id="highlightColor" src="tables/rule8-color.html" width="1000" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 8: Highlight Outliers
+
+We can *really* pull the focus with background **fill** of each cell *outlier*.
+
+&lt;iframe id="highlightFill" src="tables/rule8-fill.html" width="1000" height="600"  frameborder="0"&gt;
+
+---
+
+### Rule 9: Group Similar Data and Increase White Space
+
+In this rule, you want to make sure to group similar categories to make parsing the table easier. 
+
+We can also increase white space, or even remove repeats to increase the data-to-ink ratio.
+---
+
+### 9. Bad Example
+
+&lt;iframe id="rule9Bad" src="tables/rule9-bad.html" width="1000" height="1000"  frameborder="0"&gt;
+
+---
+
+### 9. `gt` native grouping
+
+`gt` provides row group levels that we can use to separate by Country.
+
+&lt;iframe id="rule9Good" src="tables/rule9-grp.html" width="1000" height="1000"  frameborder="0"&gt;
+
+---
+
+### Rule 10: Add visualizations When Appropriate
+
+While data viz and tables are different tools, you can combine them in clever ways to further engage the reader. Embedded data viz can reveal trends, while the table itself shows the raw data for lookup.
+
+--
+
+Turn basic bar charts into detailed tables
+
+--
+
+Turn "spaghetti plots" of basic time series into many small multiples with additional details
+
+--
+
+Turn targets and values into compact "bullet charts"
+
+--
+
+Plot distributions with density plots, histograms, confidence intervals, or measures of central tendency, along with other data
+
+---
+
+### Here comes `gtExtras`
+
+`gtExtras` provides additional easy to use features on top of the `gt` R package. Technically, everything is _just_ `gt` code behind the scenes, along with some custom HTML.
+
+
+```r
+remotes::install_github("jthomasmock/gtExtras")
+```
+
+Documentation at: [jthomasmock.github.io/gtExtras/](https://jthomasmock.github.io/gtExtras/index.html)
+
+--
+
+While `gtExtras` can do a _LOT_ more than just inline plots, I'll focus on those features for today.
+
+
+---
+
+### 10. Sparklines - Trends across Time
+
+.pull-left[
+
+
+```r
+small_yield %&gt;% 
+  group_by(Country) %&gt;% 
+  summarise(`2013` = yield[year == 2013],
+            `2017` = yield[year == 2017],
+*           Trend = list(yield)) %&gt;%
+  gt() %&gt;% 
+  tab_spanner(html("Potato Yield in&lt;br&gt;Tonnes/Hectare"), 2:4) %&gt;% 
+* gtExtras::gt_sparkline(Trend) %&gt;%
+* gtExtras::gt_theme_guardian()
+```
+
+]
+
+--
+
+&lt;iframe id="tabSpark" src="tables/spark-tab.html" width="450" height="600"  frameborder="0"&gt;
+
+---
+
+### 10. Sparklines - Distributions with Density
+
+.pull-left[
+
+```r
+fake_df &lt;- gtExtras::generate_df(
+  n = 100, n_grps = 5, 
+  mean = sample(10:50, size = 5),
+  sd = sample(5:20, size = 5), 
+  with_seed = 37)
+
+fake_df %&gt;% 
+  group_by(grp) %&gt;% 
+  summarise(mean = mean(values),
+*           data = list(values)) %&gt;%
+  arrange(desc(mean)) %&gt;% 
+  gt() %&gt;% 
+* gtExtras::gt_sparkline(column = data,
+*                        type = "density")
+```
+
+
+]
+
+--
+
+.pull-right[
+&lt;iframe id="gtDensity" src="tables/gt-density.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### 10. Barplot
+
+.pull-left[
+
+```r
+gt(bar_yields) %&gt;% 
+  gtExtras::gt_duplicate_column(
+    mean, dupe_name = "mean_plot") %&gt;% 
+* gtExtras::gt_plt_bar(
+*   mean_plot, color = "lightblue",
+*   scale_type = "number") %&gt;%
+  gtExtras::gt_theme_nytimes() %&gt;% 
+  cols_label(
+    mean = html("Average&lt;br&gt;2013-17"),
+    mean_plot = "")
+```
+
+
+]
+
+--
+
+.pull-right[
+&lt;iframe id="gtBar" src="tables/bar-plot.html" width="450" height="600"  frameborder="0"&gt;
+
+]
+
+---
+
+### 10. Confidence Intervals
+
+You can also plot confidence intervals, either by providing your own values or a basic calculation internally.
+
+&lt;iframe id="gtCI" src="tables/ci-table.html" width="550" height="600"  frameborder="0"&gt;
+
+---
+
+### 10. Point plot, recreation
+
+&lt;iframe id="gtGerman" src="tables/german-election.html" width="1000" height="1000"  frameborder="0"&gt;
+
+---
+
+### 10. Bullet charts
+
+There’s also an option to create [bullet charts](https://en.wikipedia.org/wiki/Bullet_graph) which represent a core value and a target metric.
+
+&lt;iframe id="gtBullet" src="tables/gt-bullet.html" width="550" height="600"  frameborder="0"&gt;
+
+---
+
+### 10. Heatmap
+
+Lastly, you can add colors across the entire plot itself to show trends across the data over time and across country.
+
+&lt;iframe id="gtHeatmap" src="tables/heatmap.html" width="600" height="600"  frameborder="0"&gt;
+
+---
+
+### 10 Guidelines for Better Tables
+
+.pull-left[
+#### 1. Offset the Heads from the Body  
+#### 2. Use Subtle Dividers over Heavy Grids  
+#### 3. Right-Align Numbers  
+#### 4. Left-Align Text  
+#### 5. Select Appropriate Precision  
+]
+
+.pull-right[
+#### 6. Guide your Reader with Space between Rows and Columns  
+#### 7. Remove Unit Repetition  
+#### 8. Highlight Outliers  
+#### 9. Group Similar Data and Increase White Space  
+#### 10. Add Visualizations when Appropriate  
+]
+
+---
+
+# Resources
+
+* 7 Different Table Guides on [TheMockUp.blog](https://themockup.blog/#category:tables)  
+
+* ALL code for this specific presentation in written form in [this post](https://themockup.blog/posts/2020-09-04-10-table-rules-in-r/)  
+
+* `gt` [documentation](https://gt.rstudio.com/)  
+
+* Stephen Few's *Show Me the Numbers* book - excellent resource on tables/graphs  
+
+* The [`{gt}` Cookbook](https://themockup.blog/static/gt-cookbook.html)  
+
+* The [Advanced `{gt}` Cookbook](https://themockup.blog/static/gt-cookbook-advanced.html)  
+
+* [`{gtsummary}` R package](http://www.danieldsjoberg.com/gtsummary/)  
+
+* [`{gtExtras}` documentation](https://jthomasmock.github.io/gtExtras/index.html)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "dracula",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"selfContained": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
