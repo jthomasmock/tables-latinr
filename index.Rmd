@@ -74,7 +74,7 @@ class: title-slide, left, top
 
 <span style='color:white;'>Slides released under</span> [CC-BY 2.0](https://creativecommons.org/licenses/by/2.0/)&nbsp;&nbsp;`r fontawesome::fa("creative-commons", "white")``r fontawesome::fa("creative-commons-by", "white")` ]   
 
-<div style = "position: absolute;top: 0px;right: 0;"><img src="https://images.unsplash.com/photo-1570554886111-e80fcca6a029?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1587&q=80" alt="A purple door with a stack of boxes stacked askew, falling to the left" width="350"></img></div>
+<div style = "position: absolute;top: 0px;right: 0;"><img src="https://images.unsplash.com/photo-1570554886111-e80fcca6a029?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1587&q=80" alt="A purple door with a stack of boxes stacked askew, falling to the left" width="460"></img></div>
 
 ---
 
