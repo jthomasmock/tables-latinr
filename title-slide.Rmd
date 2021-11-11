@@ -32,31 +32,6 @@ xaringanExtra::use_panelset()
 knitr::read_chunk('table-code.R')
 ```
 
-```{r metathis, echo=FALSE}
-library(metathis)
-meta() %>%
-  meta_name("github-repo" = "jthomasmock/tables-latinr") %>% 
-  meta_social(
-    title = "Beautiful tables in R with gt and the grammar of tables",
-    description = paste(
-      "Tables don't have to be boring,",
-      "and can be created quickly and efficiently in R with gt!"
-    ),
-    url = "https://jthomasmock.github.io/tables-latinr",
-    image = "https://raw.githubusercontent.com/jthomasmock/tables-latinr/master/images/title-card.png",
-    image_alt = paste(
-      "Title slide of 'Beautiful Tables in R, gt and the grammar of tables'.", 
-      "A slide deck covering the basics of using gt and gtExtras.",
-      "It also has a purple door with a stack of boxes stacked askew in front of it."
-    ),
-    og_type = "website",
-    og_author = "Tom Mock",
-    twitter_card_type = "summary_large_image",
-    twitter_creator = "@thomas_mock",
-    twitter_site = "@thomas_mock"
-  )
-```
-
 class: title-slide, left, top
 
 # `r rmarkdown::metadata$title`

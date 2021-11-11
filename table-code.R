@@ -1099,8 +1099,9 @@ bar_yields <- yield_data %>%
 gt(bar_yields) %>% 
   gtExtras::gt_duplicate_column(
     mean, dupe_name = "mean_plot") %>% 
-  gtExtras::gt_plt_bar(mean_plot, color = "lightblue",
-                       scale_type = "number") %>% 
+  gtExtras::gt_plt_bar(
+    mean_plot, color = "lightblue",
+    width = 40, scale_type = "number") %>% 
   gtExtras::gt_theme_nytimes() %>% 
   cols_label(
     mean = html("Average<br>2013-17"),
